@@ -33,7 +33,7 @@ if [[ ! "${msgTitle}" ||  ! "${slackUrl}" || ! "${msgBody}" || ! "${channelName}
     usage
 fi
 
-read -d '' payLoad << EOF
+read -r -d '' payLoad << EOF
 {
         "channel": "#${channelName}",
         "username": "$(hostname)",
@@ -55,11 +55,11 @@ EOF
 
 
 statusCode=$(curl \
-        --write-out %{http_code} \
+        --write-out "%{http_code}" \
         --silent \
         --output /dev/null \
         -X POST \
         -H 'Content-type: application/json' \
-        --data "${payLoad}" ${slackUrl})
+        --data "${payLoad}" "${slackUrl}")
 
-echo ${statusCode}
+echo "${statusCode}"
